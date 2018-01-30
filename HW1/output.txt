@@ -1,0 +1,120 @@
+Test 1: matrixMultiplication - [Passed]
+ A = 
+     1     2     3
+     4     5     6
+     7     8     9
+
+ B = 
+    10    20    30
+    40    50    60
+    70    80    90
+
+ --------------
+ Expected:
+   300   360   420
+   660   810   960
+  1020  1260  1500
+
+ Yours: 
+   300   360   420
+   660   810   960
+  1020  1260  1500
+
+Test 2: matrixMultiplication - [Passed]
+ A = 
+     7     8     9
+
+ B = 
+    10    20    30
+    40    50    60
+    70    80    90
+
+ --------------
+ Expected:
+  1020  1260  1500
+
+ Yours: 
+  1020  1260  1500
+
+Test 3: matrixMultiplication - [Passed]
+ A = 
+    10    20    30    40
+    50    60    70    80
+    90    10    20    30
+
+ B = 
+     4
+     5
+     6
+     7
+
+ --------------
+ Expected:
+   600
+  1480
+   740
+
+ Yours: 
+   600
+  1480
+   740
+
+Test 4: jaccard - [Passed]
+ A = [0, 1, 1, 0, 0, 0, 1, 1, 0]
+ B = [0, 1, 1, 0, 0, 0, 1, 1, 0]
+ --------------
+ Expected: 1.0
+ Yours: 1.0
+
+Test 5: jaccard - [Passed]
+ A = [0, 1, 1, 0, 0, 0, 0, 1]
+ B = [0, 0, 0, 0, 0, 0, 1, 1]
+ --------------
+ Expected: 0.25
+ Yours: 0.25
+
+Test 6: jaccard - [Passed]
+ A = [1, 1, 1, 1, 1, 1]
+ B = [0, 0, 0, 0, 0, 0]
+ --------------
+ Expected: 0.0
+ Yours: 0.0
+
+Test 7: cosineSimilarity - [Passed]
+ A = [3, 2, 0, 5, 0, 0, 0, 2, 0, 0]
+ B = [1, 0, 0, 0, 0, 0, 0, 1, 0, 2]
+ --------------
+ Expected: 71.6
+ Yours: 71.6
+
+Test 8: cosineSimilarity - [Passed]
+ A = [1, 1]
+ B = [1, 0]
+ --------------
+ Expected: 45.0
+ Yours: 45.0
+
+Test 9: cosineSimilarity - [Passed]
+ A = [0, 1]
+ B = [1, 0]
+ --------------
+ Expected: 90.0
+ Yours: 90.0
+
+Test 10: euclidean - [Passed]
+ A = [3, 1]
+ B = [5, 1]
+ --------------
+ Expected: 2.0
+ Yours: 2.0
+
+Test 11: euclidean - [Passed]
+ A = [3, 2, 0, 5, 0, 0, 0, 2, 0, 0]
+ B = [1, 0, 0, 0, 0, 0, 0, 1, 0, 2]
+ --------------
+ Expected: 6.2
+ Yours: 6.2
+
+Total test cases: 11
+Correct: 11
+Wrong: 0
