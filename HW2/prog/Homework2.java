@@ -28,7 +28,7 @@ public class Homework2
     public static void selectionSort(double[][] numArray)
     {
         int last = numArray.length - 1;
-        
+
         for (int i = 0; i < last; i++)
         {
             // find the index of the smallest element in the unsorted region
@@ -58,7 +58,25 @@ public class Homework2
     public double[][] findNeighbors(double[][] trainingSet, double[] testSample, int k)
     {
         // TODO: implement this method
-        
+        final int ID = 0;
+        final int LABEL = 1;
+        final int DISTANCE = 2;
+        int i,j;
+        //int[][] classes = new int[k][3];
+        double[][] neighbors = new double[trainingSet.length][2];
+
+        for(i=0; i < trainingSet.length; i++) {
+          neighbors[i][0] = trainingSet[i][trainingSet[i].length-1];
+          neighbors[i][1] = euclidean(Arrays.copyOfRange(testSample, 1,testSample.length), 
+                                      Arrays.copyOfRange(trainingSet[i], 1, trainingSet[i].length-1));
+        }
+
+        selectionSort(neighbors);
+
+        for(i=0;i<k;i++) {
+          System.out.println("label: " + neighbors[i][0] + " and distance: " + neighbors[i][1]);
+        }
+
         return null; // replace this statement with your own return
     }
     
