@@ -3,6 +3,8 @@
 
 import java.util.Arrays;
 
+import org.omg.PortableInterceptor.DISCARDING;
+
 public class Homework2 
 {
     // This method takes two int arrays (as number vectors) and returns the 
@@ -57,27 +59,29 @@ public class Homework2
     // the distances between the test sample and the neighbors.
     public double[][] findNeighbors(double[][] trainingSet, double[] testSample, int k)
     {
-        // TODO: implement this method
-        final int ID = 0;
-        final int LABEL = 1;
-        final int DISTANCE = 2;
-        int i,j;
-        //int[][] classes = new int[k][3];
-        double[][] neighbors = new double[trainingSet.length][2];
+      final int ID = 0;
+      final int LABEL = 1;
+      final int DISTANCE = 2;
+      int i,j;
+      double[][] classes = new double[k][3];
+      double[][] neighbors = new double[trainingSet.length][2];
 
-        for(i=0; i < trainingSet.length; i++) {
-          neighbors[i][0] = trainingSet[i][trainingSet[i].length-1];
-          neighbors[i][1] = euclidean(Arrays.copyOfRange(testSample, 1,testSample.length), 
-                                      Arrays.copyOfRange(trainingSet[i], 1, trainingSet[i].length-1));
+      for(i=0; i < trainingSet.length; i++) {
+        neighbors[i][0] = trainingSet[i][0];
+        neighbors[i][1] = euclidean(Arrays.copyOfRange(testSample, 1,testSample.length), 
+                                    Arrays.copyOfRange(trainingSet[i], 1, trainingSet[i].length-1));
+      }
+      selectionSort(neighbors);
+      for(i=0;i<k;i++) {
+        classes[i][ID] = neighbors[i][0];
+        classes[i][DISTANCE] = neighbors[i][1];
+        for(j = 0; j < trainingSet.length; j++) {
+          if(trainingSet[j][0] == classes[i][ID]) {
+            classes[i][LABEL] = trainingSet[j][trainingSet[j].length-1];
+          }
         }
-
-        selectionSort(neighbors);
-
-        for(i=0;i<k;i++) {
-          System.out.println("label: " + neighbors[i][0] + " and distance: " + neighbors[i][1]);
-        }
-
-        return null; // replace this statement with your own return
+      }
+      return classes;
     }
     
     // This method takes as parameter a 2-D double array which contains all neighbors 
@@ -85,9 +89,40 @@ public class Homework2
     // sum of votes for each class and returns the mostly voted class label.
     public int weightedMajorityVote(double[][] neighbors)
     {
-        // TODO: implement this method
-        
-        return -1; // replace this statement with your own return
+      final int CLASS = 1;
+      final int DISTANCE = 2;
+      final int WEIGHTED_CLASS = 0;
+      final int WEIGHTED_WEIGHT = 1;
+      int i,j;
+      int nextEmptyIndex = 1;
+      double[][] weightedValues = new double[neighbors.length][2];
+      weightedValues[0][WEIGHTED_CLASS] = neighbors[0][CLASS]; 
+      boolean exists;
+      for(i=0; i < neighbors.length; i++) {
+        exists = false;
+        for(j=0 ; j < nextEmptyIndex;j++) {
+          if(weightedValues[j][WEIGHTED_CLASS] == neighbors[i][CLASS]) {
+            weightedValues[j][WEIGHTED_WEIGHT] += 1/Math.pow(neighbors[i][DISTANCE],2);
+            exists = true;
+          }
+        }
+        if(!exists) {
+          weightedValues[nextEmptyIndex][WEIGHTED_CLASS] = neighbors[i][CLASS]; 
+          weightedValues[nextEmptyIndex][WEIGHTED_WEIGHT] += 1/Math.pow(neighbors[i][DISTANCE],2);
+          nextEmptyIndex++;
+        }
+      }
+
+      int largestIndex = 0;
+      double largestWeight = weightedValues[0][WEIGHTED_WEIGHT];
+      for(i=1;i<nextEmptyIndex;i++) {
+        if(weightedValues[i][WEIGHTED_WEIGHT] > largestWeight) {
+          largestIndex = i;
+          largestWeight = weightedValues[i][WEIGHTED_WEIGHT];
+        }
+      }
+
+      return (int)(weightedValues[largestIndex][WEIGHTED_CLASS]);
     }
     
     // This method takes as parameters a 2-D double array for training set, a 2-D
@@ -98,8 +133,15 @@ public class Homework2
     // findNeighbors method!
     public double measureAccuracy(double[][] trainingSet, double[][] testSet, int k)
     {
-        // TODO: implement this method
-        
-        return -1.0; // replace this statement with your own return
+      double[][] nearest;
+      int label;
+      int numCorrect = 0;
+      for(int i=0;i<testSet.length;i++) {
+        nearest = findNeighbors(trainingSet, Arrays.copyOfRange(testSet[i], 0, 10), k);
+        label = weightedMajorityVote(nearest);
+        if(label == (int)testSet[i][10])
+          numCorrect++;
+      }
+      return (double)numCorrect/testSet.length;
     }
 }
