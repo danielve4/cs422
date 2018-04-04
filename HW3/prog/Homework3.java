@@ -44,9 +44,26 @@ public class Homework3 {
   // double array for the data set that contains test samples. It returns a
   // 2D double array that contains the updated cluster centroids.
   public double[][] updateCentroids(int k, int[] clusters, double[][] dataset) {
-    // TODO: implement this method
+    double[][] updatedCentroids = new double[k][dataset[0].length];
+    double[] tempClusterSum = new double[dataset[0].length];
+    int tempDataNum, i, j, p;
+    for(i=0;i<k;i++) {
+      tempDataNum = 0;
+      for(p=0;p<dataset[0].length;p++)
+        tempClusterSum[p] = 0;
 
-    return null; // replace this statement with your own return
+      for(j=0;j<dataset.length;j++) {
+        if(clusters[j] == i) {
+          tempDataNum++;
+          for(p=0;p<dataset[0].length;p++) 
+            tempClusterSum[p] += dataset[j][p];
+        }
+      }
+      for(p=0;p<dataset[0].length;p++)
+        updatedCentroids[i][p] = (double)(tempClusterSum[p] / tempDataNum);
+    }
+
+    return updatedCentroids; // replace this statement with your own return
   }
 
   // This method takes as parameter an int array that contains the cluster indicies
