@@ -71,9 +71,12 @@ public class Homework3 {
   // array for the data set that contains test samples. It returns the sum of squared
   // error (SSE) for the clusters.
   public double calculateSSE(int[] clusters, double[][] centroids, double[][] dataset) {
-    // TODO: implement this method
-
-    return 0.0; // replace this statement with your own return
+    double sse = 0;
+    int i,j;
+    for(i=0;i<dataset.length;i++) {
+      sse += Math.pow(euclidean(dataset[i], centroids[clusters[i]]),2);
+    }
+    return sse;
   }
 
   // This method implements the k-means clustering algorithm. It takes an integer
@@ -84,8 +87,19 @@ public class Homework3 {
   // the algorithm. It should NOT re-implement any functionalities that have been
   // implemented in the above methods.
   public double kMeans(int k, double[][] centroids, double[][] dataset) {
-    // TODO: implement this method
-
-    return 0.0; // replace this statement with your own return
+    int[] clusters = assignSamples(k, centroids, dataset);
+    double minSse = calculateSSE(clusters,centroids,dataset);
+    double sse;
+    boolean done = false;
+    while(!done) {
+      centroids = updateCentroids(k, clusters,dataset);
+      clusters = assignSamples(k,centroids,dataset);
+      sse = calculateSSE(clusters,centroids,dataset);
+      if(sse < minSse)
+        minSse = sse;
+      else
+        done = true;
+    }
+    return minSse; 
   }
 }
